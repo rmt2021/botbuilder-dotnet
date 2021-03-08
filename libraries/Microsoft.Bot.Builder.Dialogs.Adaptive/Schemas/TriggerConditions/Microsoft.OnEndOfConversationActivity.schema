@@ -5,6 +5,8 @@
     "description": "Actions to perform on receipt of an activity with type 'EndOfConversation'.",
     "type": "object",
     "required": [
-        "actions"
-    ]
+    ],
+    "$policies": {
+        "nonInteractive": true
+    }
 }

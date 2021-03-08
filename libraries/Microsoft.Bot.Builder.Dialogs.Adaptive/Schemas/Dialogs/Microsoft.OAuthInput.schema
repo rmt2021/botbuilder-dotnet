@@ -108,5 +108,8 @@
     },
     "required": [
         "connectionName"
-    ]
+    ],
+    "$policies": {
+        "interactive": true
+    }
 }

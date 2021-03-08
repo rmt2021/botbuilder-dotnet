@@ -78,7 +78,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Actions
                 throw new ArgumentException($"{nameof(options)} cannot be a cancellation token");
             }
             
-            if (this.Disabled != null && this.Disabled.GetValue(dc.State) == true)
+            if (Disabled != null && Disabled.GetValue(dc.State))
             {
                 return await dc.EndDialogAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
             }
@@ -86,7 +86,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Actions
             var bfAdapter = dc.Context.Adapter as BotFrameworkAdapter;
             if (bfAdapter == null)
             {
-                throw new Exception("GetActivityMembers() only works with BotFrameworkAdapter");
+                throw new InvalidOperationException("GetActivityMembers() only works with BotFrameworkAdapter");
             }
 
             string id = dc.Context.Activity.Id;
@@ -95,7 +95,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Actions
                 var (value, valueError) = this.ActivityId.TryGetValue(dc.State);
                 if (valueError != null)
                 {
-                    throw new Exception($"Expression evaluation resulted in an error. Expression: {this.ActivityId}. Error: {valueError}");
+                    throw new InvalidOperationException($"Expression evaluation resulted in an error. Expression: \"{this.ActivityId}\". Error: {valueError}");
                 }
 
                 id = value as string;
@@ -108,13 +108,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Actions
             return await dc.EndDialogAsync(result, cancellationToken: cancellationToken).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Builds the compute Id for the dialog.
-        /// </summary>
-        /// <returns>A string representing the compute Id.</returns>
+        /// <inheritdoc/>
         protected override string OnComputeId()
         {
-            return $"{this.GetType().Name}[{this.ActivityId?.ToString() ?? string.Empty},{this.Property?.ToString() ?? string.Empty}]";
+            return $"{GetType().Name}[{this.ActivityId?.ToString() ?? string.Empty},{this.Property?.ToString() ?? string.Empty}]";
         }
     }
 }

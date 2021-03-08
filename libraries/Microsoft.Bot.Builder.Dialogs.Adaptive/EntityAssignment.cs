@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace Microsoft.Bot.Builder.Dialogs.Adaptive
 {
     /// <summary>
-    /// Possible assignment of an entity to a property.
+    /// Possible assignment of entities to operation, property and value.
     /// </summary>
     public class EntityAssignment
     {
@@ -18,25 +18,25 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive
         public string Event { get; set; }
 
         /// <summary>
-        /// Gets or sets name of property being assigned.
+        /// Gets or sets property.
         /// </summary>
-        /// <value>Property being assigned.</value>
+        /// <value>Property.</value>
         [JsonProperty("property")]
         public string Property { get; set; }
 
         /// <summary>
-        /// Gets or sets operation to assign entity to property.
+        /// Gets or sets operation to apply to property and value.
         /// </summary>
-        /// <value>Operation to assign entity to property.</value>
+        /// <value>Operation.</value>
         [JsonProperty("operation")]
         public string Operation { get; set; }
 
         /// <summary>
-        /// Gets or sets entity being assigned.
+        /// Gets or sets recognized entity value.
         /// </summary>
-        /// <value>Entity being assigned.</value>
-        [JsonProperty("entity")]
-        public EntityInfo Entity { get; set; }
+        /// <value>Value.</value>
+        [JsonProperty("value")]
+        public EntityInfo Value { get; set; }
 
         /// <summary>
         /// Gets or sets an alternative assignment.
@@ -62,6 +62,17 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive
         public uint RaisedCount { get; set; } = 0;
 
         /// <summary>
+        /// Gets or sets the expected properties when assignment was made.
+        /// </summary>
+        /// <value>
+        /// Expected properties.
+        /// </value>
+        [JsonProperty("expectedProperties")]
+#pragma warning disable CA2227 // Collection properties should be read only (we can't change this without breaking binary compat)
+        public List<string> ExpectedProperties { get; set; }
+#pragma warning restore CA2227 // Collection properties should be read only 
+
+        /// <summary>
         /// Gets the alternative entity assignments.
         /// </summary>
         /// <value>
@@ -77,7 +88,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive
                 {
                     yield return current;
                     current = current.Alternative;
-                } 
+                }
                 while (current != null);
             }
         }
@@ -105,6 +116,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive
         /// </summary>
         /// <returns>A string that represents the current object.</returns>
         public override string ToString()
-            => (IsExpected ? "+" : string.Empty) + $"{Event}: {Property} = {Operation}({Entity})";
+            => (IsExpected ? "+" : string.Empty) + $"{Event}: {Property} = {Operation}({Value})";
     }
 }

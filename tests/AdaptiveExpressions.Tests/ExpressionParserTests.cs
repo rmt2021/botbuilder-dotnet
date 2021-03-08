@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Threading;
+using AdaptiveExpressions.BuiltinFunctions;
 using AdaptiveExpressions.Memory;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Newtonsoft.Json.Linq;
@@ -351,6 +352,7 @@ namespace AdaptiveExpressions.Tests
             Test("sentenceCase('aBC', 'fr-FR')", "Abc"),
             Test("titleCase('a', 'en-US')", "A"),
             Test("titleCase('abc dEF', 'en-US')", "Abc Def"),
+            Test("titleCase('today, February 17th', 'en-US')", "Today, February 17th"),
             #endregion
 
             #region accessor and element
@@ -369,6 +371,10 @@ namespace AdaptiveExpressions.Tests
             #region string interpolation test
             Test("``", string.Empty),
             Test("`hi`", "hi"),
+            Test("`hi\r\n`", "hi\r\n"),
+            Test("`hi\\r\\n`", "hi\\r\\n"),
+            Test("`hi\\\\``", "hi\\`"),
+            Test("`hi\\$`", "hi$"),
             Test(@"`hi\``", "hi`"),
             Test("`${world}`", "world"),
             Test(@"`hi ${string('jack`')}`", "hi jack`"),
@@ -497,6 +503,16 @@ namespace AdaptiveExpressions.Tests
             Test("bag.name == null ? \"hello\": bag.name", "mybag"),
             Test("one > 0? one : two", 1),
             Test("hello * 5?'r1':'r2'", "r2"),
+            Test("timestampObj < timestampObj2", false),
+            Test("timestampObj2 < timestampObj", true),
+            Test("timestampObj > timestampObj2", true),
+            Test("timestampObj2 > timestampObj", false),
+            Test("timestampObj >= timestampObj2", true),
+            Test("timestampObj2 >= timestampObj", false),
+            Test("timestampObj <= timestampObj2", false),
+            Test("timestampObj2 <= timestampObj", true),
+            Test("timestampObj == timestampObj2", false),
+            Test("timestampObj == timestampObj", true),
             #endregion
 
             #region  String functions test
@@ -571,6 +587,9 @@ namespace AdaptiveExpressions.Tests
             Test("startsWith(nullObj,'h')", false),
             Test("startsWith('hello', nullObj)", true),
             Test("startsWith('hello','a')", false),
+            Test("take(hello,1)", "h"),
+            Test("take(hello,-1)", string.Empty),
+            Test("take(hello,10)", "hello"),
             Test("countWord(hello)", 1),
             Test("countWord(nullObj)", 0),
             Test("countWord(concat(hello, ' ', world))", 2),
@@ -615,7 +634,9 @@ namespace AdaptiveExpressions.Tests
             Test("less(5, 2)", false),
             Test("less(2, 2)", false),
             Test("less(one, two)", true),
-            Test("less(one, two)", true, OneTwo),
+            Test("less(false, true)", true),
+            Test("less(one, two)", true),
+            Test("less('abc', 'xyz')", true),
             Test("lessOrEquals(one, one)", true, new HashSet<string> { "one" }),
             Test("lessOrEquals(one, two)", true, OneTwo),
             Test("lessOrEquals(one, one)", true),
@@ -784,6 +805,11 @@ namespace AdaptiveExpressions.Tests
             Test("round(3.51)", 4),
             Test("round(3.55, 1)", 3.6),
             Test("round(3.12134, 3)", 3.121),
+            Test("abs(3.12134)", 3.12134),
+            Test("abs(-3.12134)", 3.12134),
+            Test("abs(0)", 0),
+            Test("sqrt(9)", 3),
+            Test("sqrt(0)", 0),
             #endregion
 
             #region  Date and time function test
@@ -866,6 +892,7 @@ namespace AdaptiveExpressions.Tests
             Test("getFutureTime(1,'Month','MM-dd-yy')", DateTime.UtcNow.AddMonths(1).ToString("MM-dd-yy")),
             Test("getFutureTime(1,'Week','MM-dd-yy')", DateTime.UtcNow.AddDays(7).ToString("MM-dd-yy")),
             Test("getFutureTime(1,'Day','MM-dd-yy')", DateTime.UtcNow.AddDays(1).ToString("MM-dd-yy")),
+            Test("convertFromUTC('2018-01-02T02:00:00.000Z', 'Pacific Standard Time')", "2018-01-01T18:00:00.0000000"),
             Test("convertFromUTC('2018-01-02T02:00:00.000Z', 'Pacific Standard Time', 'D', 'en-US')", "Monday, January 1, 2018"),
             Test("convertFromUTC(timestampObj2, 'Pacific Standard Time', 'D', 'en-US')", "Monday, January 1, 2018"),
             Test("convertFromUTC('2018-01-02T01:00:00.000Z', 'America/Los_Angeles', 'D', 'en-US')", "Monday, January 1, 2018"),
@@ -986,7 +1013,11 @@ namespace AdaptiveExpressions.Tests
             Test("count(intersection(createArray('a', 'b')))", 2),
             Test("count(intersection(createArray('a', 'b'), createArray('b', 'c'), createArray('b', 'd')))", 1),
             Test("skip(createArray('H','e','l','l','0'),2)", new List<object> { "l", "l", "0" }),
+            Test("skip(createArray('H','e','l','l','0'),-1)", new List<object> { "H", "e", "l", "l", "0" }),
+            Test("skip(createArray('H','e','l','l','0'),10)", new List<object> { }),
             Test("take(createArray('H','e','l','l','0'),2)", new List<object> { "H", "e" }),
+            Test("take(createArray('H','e','l','l','0'),-1)", new List<object> { }),
+            Test("take(createArray('H','e','l','l','0'),10)", new List<object> { "H", "e", "l", "l", "0" }),
             Test("subArray(createArray('H','e','l','l','o'),2,5)", new List<object> { "l", "l", "o" }),
             Test("count(newGuid())", 36),
             Test("indexOf(newGuid(), '-')", 8),
@@ -1015,6 +1046,14 @@ namespace AdaptiveExpressions.Tests
             Test("flatten(createArray(1,createArray(2),createArray(createArray(3, 4), createArray(5,6))))", new List<object> { 1, 2, 3, 4, 5, 6 }),
             Test("flatten(createArray(1,createArray(2),createArray(createArray(3, 4), createArray(5,6))), 1)", new List<object> { 1, 2, new List<object>() { 3, 4 }, new List<object>() { 5, 6 } }),
             Test("unique(createArray(1, 5, 1))", new List<object>() { 1, 5 }),
+            Test("any(createArray(1, 'cool'), item, isInteger(item))", true),
+            Test("any(createArray('first', 'cool'), item => isInteger(item))", false),
+            Test("all(createArray(1, 'cool'), item, isInteger(item))", false),
+            Test("all(createArray(1, 2), item => isInteger(item))", true),
+            Test("any(dialog, item, item.key == 'title')", true),
+            Test("any(dialog, item, isInteger(item.value))", true),
+            Test("all(dialog, item, item.key == 'title')", false),
+            Test("all(dialog, item, isInteger(item.value))", false),
             #endregion
 
             #region  Object manipulation and construction functions
@@ -1125,6 +1164,11 @@ namespace AdaptiveExpressions.Tests
             #region TriggerTree Tests
             Test("ignore(true)", true),
             #endregion
+
+            #region StringOrValue
+            Test("stringOrValue('${one}')", 1.0),
+            Test("stringOrValue('${one} item')", "1 item"),
+            #endregion
         };
 
         public static IEnumerable<object[]> DataForThreadLocale => new[]
@@ -1197,9 +1241,9 @@ namespace AdaptiveExpressions.Tests
         [MemberData(nameof(DataForThreadLocale))]
         public void EvaluateWithLocale(string input, object expected, HashSet<string> expectedRefs)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             var parsed = Expression.Parse(input);
             Assert.NotNull(parsed);
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             var opts = new Options() { Locale = "fr-FR" };
             var (actual, msg) = parsed.TryEvaluate(scopeForThreadLocale, opts);
             Assert.Null(msg);
@@ -1414,6 +1458,18 @@ namespace AdaptiveExpressions.Tests
             // null is also the valid value
             (value, error) = Expression.Parse("b").TryEvaluate(sM);
             Assert.Null(value);
+        }
+
+        [Fact]
+        public void TestNumericEvaluator()
+        {
+            var functionName = "Math.sum";
+            Expression.Functions.Add(
+                functionName,
+                new NumericEvaluator(functionName, (args) => (int)args[0] + (int)args[1]));
+            var (result, error) = Expression.Parse("Math.sum(1, 2, 3)").TryEvaluate(null);
+            Assert.Equal(6, result);
+            Assert.Null(error);
         }
 
         private void AssertResult<T>(string text, T expected)

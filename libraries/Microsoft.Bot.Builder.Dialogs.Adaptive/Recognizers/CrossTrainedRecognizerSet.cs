@@ -18,17 +18,17 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers
     /// </summary>
     /// <remarks>
     /// Recognizer implementation which calls multiple recognizers that are cross trained with intents
-    /// that model deferring to another recognizer. Each recognizer should have intents 
-    /// with special intent name pattern $"DefersToRecognizer_{Id}" to represent a cross-trained 
+    /// that model deferring to another recognizer. Each recognizer should have intents
+    /// with special intent name pattern $"DefersToRecognizer_{Id}" to represent a cross-trained
     /// intent for another recognizer.
-    /// 
+    ///
     /// If there is consensus among the cross trained recognizers, the recognizerResult structure from
     /// the consensus recognizer is returned.
-    /// 
-    /// In the case that there is conflicting or ambigious signals from the recognizers then an 
+    ///
+    /// In the case that there is conflicting or ambiguous signals from the recognizers then an
     /// intent of "ChooseIntent" will be returned with the results of all of the recognizers.
     /// </remarks>
-    public class CrossTrainedRecognizerSet : Recognizer
+    public class CrossTrainedRecognizerSet : AdaptiveRecognizer
     {
         /// <summary>
         /// Class idenfifier.
@@ -104,7 +104,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers
 
             var result = ProcessResults(results);
 
-            this.TrackRecognizerResult(dialogContext, "CrossTrainedRecognizerSetResult", this.FillRecognizerResultTelemetryProperties(result, telemetryProperties), telemetryMetrics);
+            TrackRecognizerResult(dialogContext, "CrossTrainedRecognizerSetResult", FillRecognizerResultTelemetryProperties(result, telemetryProperties, dialogContext), telemetryMetrics);
 
             return result;
         }
@@ -170,7 +170,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers
                     }
                     else
                     {
-                        // ambigious because we have 2 or more real intents, so return ChooseIntent, filter out redirect results and return ChooseIntent
+                        // ambiguous because we have 2 or more real intents, so return ChooseIntent, filter out redirect results and return ChooseIntent
                         var recognizersWithRealIntents = recognizerResults
                             .Where(kv => !IsRedirect(kv.Value.GetTopScoringIntent().intent))
                             .ToDictionary(kv => kv.Key, kv => kv.Value);
@@ -188,7 +188,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers
             //find if there is missing entities matched
             var mergedEntities = new JObject();
             foreach (var rocogResult in results)
-            {            
+            {
                 if (rocogResult.Entities.Count > 0)
                 {
                     mergedEntities.Merge(rocogResult.Entities);
@@ -216,7 +216,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers
 
         private void EnsureRecognizerIds()
         {
-            if (this.Recognizers.Any(recognizer => string.IsNullOrEmpty(recognizer.Id)))
+            if (Recognizers.Any(recognizer => string.IsNullOrEmpty(recognizer.Id)))
             {
                 throw new InvalidOperationException("This recognizer requires that each recognizer in the set have an .Id value.");
             }

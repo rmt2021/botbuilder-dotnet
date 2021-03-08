@@ -180,7 +180,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Input
                 throw new ArgumentException($"{nameof(options)} cannot be a cancellation token");
             }
 
-            if (this.Disabled != null && this.Disabled.GetValue(dc.State) == true)
+            if (Disabled != null && Disabled.GetValue(dc.State))
             {
                 return await dc.EndDialogAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
             }
@@ -469,11 +469,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Input
 
             if (msg == null)
             {
-                template = this.Prompt;
+                template = this.Prompt ?? throw new InvalidOperationException($"InputDialog is missing Prompt.");
                 msg = await this.Prompt.BindAsync(dc, cancellationToken: cancellationToken).ConfigureAwait(false);
             }
 
-            msg.InputHint = InputHints.ExpectingInput;
+            if (string.IsNullOrEmpty(msg?.InputHint))
+            {
+                msg.InputHint = InputHints.ExpectingInput;
+            }
 
             var properties = new Dictionary<string, string>()
             {
@@ -506,7 +509,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Input
                 var (value, valueError) = this.Value.TryGetValue(dc.State);
                 if (valueError != null)
                 {
-                    throw new Exception($"In InputDialog, this.Value expression evaluation resulted in an error. Expression: {this.Value}. Error: {valueError}");
+                    throw new InvalidOperationException($"In InputDialog, this.Value expression evaluation resulted in an error. Expression: {this.Value}. Error: {valueError}");
                 }
 
                 input = value;

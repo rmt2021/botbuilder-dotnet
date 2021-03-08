@@ -16,7 +16,6 @@ namespace AdaptiveExpressions.Tests
             Test("fun(a, b, c"),
             Test("func(A,b,b,)"),
             Test("\"hello'"),
-            Test("'hello'.length()"), // not supported currently
             Test("user.lists.{dialog.listName}"),
             Test("`hi` world")
         };
@@ -29,6 +28,7 @@ namespace AdaptiveExpressions.Tests
             Test("a.func()"), // no such function
             Test("(1.foreach)()"), // error func
             Test("('str'.foreach)()"), // error func
+            Test("'hello'.length()"), // not supported currently
             #endregion
 
             #region Operators test
@@ -109,7 +109,8 @@ namespace AdaptiveExpressions.Tests
             Test("greater(one)"), // greater need two parameters
             Test("greaterOrEquals(one, hello)"), // string and integer are not comparable
             Test("greaterOrEquals(one)"), // function need two parameters
-            Test("less(false, true)"), // string or number parameters are needed
+            Test("less(1, true)"), // should have rge same type
+            Test("less(json('{}'), [])"), // should be comparable
             Test("less(one, hello)"), // string and integer are not comparable
             Test("less(one)"), // function need two parameters
             Test("lessOrEquals(one, hello)"), // string and integer are not comparable
@@ -194,6 +195,11 @@ namespace AdaptiveExpressions.Tests
             Test("round(1.2, 16)"), // the 2nd parameter should not greater than 15
             Test("round(1.2, 2, 3)"), // should have one or two number parameters
             Test("round(1.2, 21232123123123123)"), // the second parameter should be a 32-bit signed integer
+            Test("abs()"), // should have one parameters
+            Test("abs(hello)"), // should have one number parameters
+            Test("sqrt()"), // should have one parameters
+            Test("sqrt(hello)"), // should have one number parameters
+            Test("sqrt(-1)"), // should have one non-nagitive number parameters
             #endregion
             
             #region Date and time function test
@@ -387,12 +393,8 @@ namespace AdaptiveExpressions.Tests
             Test("union(one, two)"), // should have collection param
             Test("intersection(one, two)"), // should have collection param
             Test("skip(one, two)"), // should have collection param
-            Test("skip(items,-1)"), // the second parameter shoule not less than zero
-            Test("skip(items,3)"), // the second parameter shoule  less than the length of the collection
             Test("take(one, two)"), // should have collection param
             Test("take(createArray('H','e','l','l','0'),items[5])"), // the second param expr is wrong
-            Test("take(items,-1)"), // the second parameter shoule not less than zero
-            Test("take(items,4)"), // the second parameter shoule  less than the length of the collection
             Test("subArray(one,1,4)"), // should have collection param
             Test("subArray(items,-1,4)"), // the second parameter shoule not less than zero
             Test("subArray(items,1,4)"), // the second parameter shoule  less than the length of the collection
@@ -464,6 +466,12 @@ namespace AdaptiveExpressions.Tests
             // optional throws because it's a placeholder only interpreted by trigger tree and is removed before evaluation
             Test("optional(true)"), 
             #endregion
+
+            #region StringOrValue
+            Test("stringOrValue()"), // should have 1 parameter
+            Test("stringOrValue(1)"), // should have string parameter
+            Test("stringOrValue('${1/0} item')"), // throw error in evaluation stage
+            #endregion
         };
 
         /// <summary>
@@ -478,7 +486,8 @@ namespace AdaptiveExpressions.Tests
         [MemberData(nameof(SyntaxErrorExpressions))]
         public void ParseSyntaxErrors(string exp)
         {
-            Assert.Throws<SyntaxErrorException>(() => Expression.Parse(exp));
+            var exception = Assert.Throws<SyntaxErrorException>(() => Expression.Parse(exp));
+            Assert.Equal("Invalid expression format.", exception.Message);
         }
 
         [Theory]

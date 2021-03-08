@@ -160,5 +160,8 @@
                 }
             ]
         }
+    },
+    "$policies": {
+        "interactive": true
     }
 }

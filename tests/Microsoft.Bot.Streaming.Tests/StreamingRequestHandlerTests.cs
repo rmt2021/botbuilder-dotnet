@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -175,7 +174,7 @@ namespace Microsoft.Bot.Builder.Streaming.Tests
             var response = await handler.ProcessRequestAsync(testRequest);
 
             // Assert
-            Assert.Equal((int)HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.Equal(400, response.StatusCode);
         }
 
         [Fact]

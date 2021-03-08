@@ -98,7 +98,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Actions
             Take,
 
             /// <summary>
-            /// Remove the item from the array, regardless of it's location
+            /// Remove the item from the array, regardless of it's location. Searches starting at the front of the array and stops when the first matching item is found.
             /// </summary>
             Remove,
 
@@ -171,7 +171,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Actions
                 throw new ArgumentException($"{nameof(options)} cannot be a cancellation token");
             }
 
-            if (this.Disabled != null && this.Disabled.GetValue(dc.State))
+            if (Disabled != null && Disabled.GetValue(dc.State))
             {
                 return await dc.EndDialogAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
             }
@@ -180,7 +180,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Actions
 
             if (this.ItemsProperty == null)
             {
-                throw new Exception($"EditArray: \"{changeType}\" operation couldn't be performed because the {nameof(ItemsProperty)} wasn't specified.");
+                throw new InvalidOperationException($"EditArray: \"{changeType}\" operation couldn't be performed because the {nameof(ItemsProperty)} wasn't specified.");
             }
 
             var property = this.ItemsProperty.GetValue(dc.State);
@@ -253,20 +253,17 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Actions
             return await dc.EndDialogAsync(result, cancellationToken).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Builds the compute Id for the dialog.
-        /// </summary>
-        /// <returns>A string representing the compute Id.</returns>
+        /// <inheritdoc/>
         protected override string OnComputeId()
         {
-            return $"{this.GetType().Name}[{ChangeType?.ToString() + ": " + ItemsProperty?.ToString()}]";
+            return $"{GetType().Name}[{ChangeType?.ToString() + ": " + ItemsProperty?.ToString()}]";
         }
 
         private void EnsureValue()
         {
             if (Value == null)
             {
-                throw new Exception($"EditArray: \"{ChangeType}\" operation couldn't be performed for array \"{ItemsProperty}\" because a value wasn't specified.");
+                throw new InvalidOperationException($"EditArray: \"{ChangeType}\" operation couldn't be performed for array \"{ItemsProperty}\" because a value wasn't specified.");
             }
         }
     }

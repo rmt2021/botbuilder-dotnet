@@ -21,7 +21,7 @@ For more information jump to a section below.
 
  | Branch | Description        | Build Status | Coverage Status | Windows Bot Test Status | Linux Bot Test Status |
  |----|---------------|--------------|-----------------|--|--|
- |Main | 4.11.* Preview Builds |[![Build Status](https://fuselabs.visualstudio.com/SDK_v4/_apis/build/status/DotNet/BotBuilder-DotNet-Signed-daily?branchName=main)](https://fuselabs.visualstudio.com/SDK_v4/_build/latest?definitionId=277&branchName=main) |[![Coverage Status](https://coveralls.io/repos/github/Microsoft/botbuilder-dotnet/badge.svg?branch=main&service=github)](https://coveralls.io/github/Microsoft/botbuilder-dotnet?branch=main) | [![Tests Status](https://fuselabs.visualstudio.com/SDK_v4/_apis/build/status/DotNet/FunctionalTests/BotBuilder-DotNet-Functional-Tests-Windows-yaml?branchName=main)](https://fuselabs.visualstudio.com/SDK_v4/_build/latest?definitionId=834&branchName=main) |  [![Tests Status](https://fuselabs.visualstudio.com/SDK_v4/_apis/build/status/DotNet/FunctionalTests/BotBuilder-DotNet-Functional-Tests-Linux-yaml?branchName=main)](https://fuselabs.visualstudio.com/SDK_v4/_build/latest?definitionId=779&branchName=main)
+ |Main | 4.13.* Preview Builds |[![Build Status](https://fuselabs.visualstudio.com/SDK_v4/_apis/build/status/DotNet/BotBuilder-DotNet-Signed-daily?branchName=main)](https://fuselabs.visualstudio.com/SDK_v4/_build/latest?definitionId=277&branchName=main) |[![Coverage Status](https://coveralls.io/repos/github/Microsoft/botbuilder-dotnet/badge.svg?branch=main&service=github)](https://coveralls.io/github/Microsoft/botbuilder-dotnet?branch=main) | [![Tests Status](https://fuselabs.visualstudio.com/SDK_v4/_apis/build/status/DotNet/FunctionalTests/BotBuilder-DotNet-Functional-Tests-Windows-yaml?branchName=main)](https://fuselabs.visualstudio.com/SDK_v4/_build/latest?definitionId=834&branchName=main) |  [![Tests Status](https://fuselabs.visualstudio.com/SDK_v4/_apis/build/status/DotNet/FunctionalTests/BotBuilder-DotNet-Functional-Tests-Linux-yaml?branchName=main)](https://fuselabs.visualstudio.com/SDK_v4/_build/latest?definitionId=779&branchName=main)
 
 ## Packages
 
@@ -63,11 +63,11 @@ The daily feeds are published to Azure Artifacts and MyGet.
 - The Azure Artifacts daily feed is our preferred method to obtain the most recent Bot Framework NuGet packages. To use the daily builds published to Azure Artifacts, use: 
 `https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json`
 
-For instructions to add the feed to your NuGet configuration, [visit this page](https://docs.microsoft.com/en-us/azure/devops/artifacts/nuget/consume?view=azure-devops#windows-add-the-feed-to-your-nuget-configuration).
+- For detailed instructions to consume the daily builds in Azure Artifacts [visit this page](dailyBuilds.md).
 - To use the daily builds published to MyGet, please follow the instructions [here](UsingMyGet.md). **NOTE**: The MyGet feed will be depecrated soon. Please use the Azure Artifacts daily feed instead.
 
 ## Dependency Graph
-To view our libraries' interdependencies, you can refer to the [dependency graph](https://botbuildersdkblobstorage.blob.core.windows.net/sdk-dotnet-dependency-reports/4.10.0/InterdependencyGraph.html) for our libraries.
+To view our libraries' interdependencies, you can refer to the [dependency graph](https://botbuildersdkblobstorage.blob.core.windows.net/sdk-dotnet-dependency-reports/latest/InterdependencyGraph.html) for our libraries.
 
 ## Getting Started
 To get started building bots using the SDK, see the [Azure Bot Service Documentation](https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0).
@@ -112,7 +112,7 @@ Below are the various channels that are available to you for obtaining support a
 If you issues relates to [Azure Bot Service](https://azure.microsoft.com/en-gb/services/bot-service/), you can take advantage of the available [Azure support options](https://azure.microsoft.com/en-us/support/options/).
 
 ### Twitter
-We use the [@botframework](https://twitter.com/botframework) account on twitter for announcements and members from the development team watch for tweets for @botframework.
+We use the [@msbotframework](https://twitter.com/msbotframework) account on twitter for announcements and members from the development team watch for tweets for [@msbotframework](https://twitter.com/msbotframework).
 
 ### Gitter Chat Room
 The [Gitter Channel](https://gitter.im/Microsoft/BotBuilder) provides a place where the Community can get together and collaborate.
