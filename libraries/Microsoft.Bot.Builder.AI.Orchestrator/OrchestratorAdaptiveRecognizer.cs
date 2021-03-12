@@ -226,16 +226,12 @@ namespace Microsoft.Bot.Builder.AI.Orchestrator
         {
             if (_modelFolder == null)
             {
-#pragma warning disable CA2208 // Instantiate argument exceptions correctly
-                throw new ArgumentNullException("ModelFolder");
-#pragma warning restore CA2208 // Instantiate argument exceptions correctly
+                throw new InvalidOperationException("Missing `ModelFolder` information.");
             }
 
             if (_snapshotFile == null)
             {
-#pragma warning disable CA2208 // Instantiate argument exceptions correctly
-                throw new ArgumentNullException("SnapshotFile");
-#pragma warning restore CA2208 // Instantiate argument exceptions correctly
+                throw new InvalidOperationException("Missing `SnapshotFile` information.");
             }
 
             if (_resolver != null)
