@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Version Condition=" '$(PreviewPackageVersion)' == '' ">$(LocalPackageVersion)</Version>
+    <Version Condition=" '$(PreviewPackageVersion)' != '' ">$(PreviewPackageVersion)</Version>
+    <PackageVersion Condition=" '$(PreviewPackageVersion)' == '' ">$(LocalPackageVersion)</PackageVersion>
+    <PackageVersion Condition=" '$(PreviewPackageVersion)' != '' ">$(PreviewPackageVersion)</PackageVersion>
+    <Configurations>Debug;Release</Configurations>
+    <DocumentationFile>bin\$(Configuration)\netstandard2.0\Microsoft.Bot.Builder.Telephony.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
+    <PackageId>Microsoft.Bot.Builder.Telephony</PackageId>
+    <Description>Library for the Azure Bot Service Telephony support using the Bot Framework SDK</Description>
+    <Summary>Bot Framework Telephony</Summary>
+    <ContentTargetFolders>content</ContentTargetFolders>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>Full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Bot.Builder" Condition=" '$(ReleasePackageVersion)' == '' " Version="$(LocalPackageVersion)" />
+    <PackageReference Include="Microsoft.Bot.Builder" Condition=" '$(ReleasePackageVersion)' != '' " Version="$(ReleasePackageVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Bot.Builder\Microsoft.Bot.Builder.csproj" />
+  </ItemGroup>
+
+</Project>
