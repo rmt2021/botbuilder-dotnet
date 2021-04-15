@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <PackageId>Microsoft.Bot.Builder.Telephony</PackageId>
     <Description>Library for the Azure Bot Service Telephony support using the Bot Framework SDK</Description>
     <Summary>Bot Framework Telephony</Summary>
