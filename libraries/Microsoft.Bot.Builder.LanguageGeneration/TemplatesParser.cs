@@ -110,7 +110,7 @@ namespace Microsoft.Bot.Builder.LanguageGeneration
                 throw new ArgumentNullException(nameof(lg));
             }
 
-            var newLG = new Templates(content: content, id: InlineContentId, source: InlineContentId, importResolver: lg.ImportResolver, options: lg.Options, namedReferences: lg.NamedReferences);
+            var newLG = new Templates(content: content, id: InlineContentId, source: InlineContentId, importResolver: lg.ImportResolver, options: lg.Options);
             try
             {
                 var resource = new LGResource(InlineContentId, InlineContentId, content);

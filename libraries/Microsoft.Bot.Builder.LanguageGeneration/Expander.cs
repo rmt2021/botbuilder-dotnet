@@ -582,7 +582,7 @@ namespace Microsoft.Bot.Builder.LanguageGeneration
        {
            var stringContent = args[0].ToString();
            var newScope = _evaluationTargetStack.Count == 0 ? null : CurrentTarget().Scope;
-           var newTemplates = new Templates(templates: Templates.AllTemplates, expressionParser: Templates.ExpressionParser, namedReferences: Templates.NamedReferences);
+           var newTemplates = new Templates(templates: Templates.AllTemplates, expressionParser: Templates.ExpressionParser);
            return newTemplates.EvaluateText(stringContent, newScope, _lgOptions);
        };
 
@@ -739,7 +739,7 @@ namespace Microsoft.Bot.Builder.LanguageGeneration
                    {
                        var stringContent = File.ReadAllText(resourcePath);
                        var newScope = _evaluationTargetStack.Count == 0 ? null : CurrentTarget().Scope;
-                       var newTemplates = new Templates(templates: Templates.AllTemplates, expressionParser: Templates.ExpressionParser, namedReferences: Templates.NamedReferences);
+                       var newTemplates = new Templates(templates: Templates.AllTemplates, expressionParser: Templates.ExpressionParser);
                        result = newTemplates.EvaluateText(stringContent, newScope, _lgOptions);
                    }
 
