@@ -78,10 +78,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive
         /// <returns>botAdapter.</returns>
         public static DialogManager UseLanguagePolicy(this DialogManager dialogManager, LanguagePolicy policy)
         {
-            dialogManager.InitialTurnState.Add<LanguagePolicy>(policy);
-
             // put global language policy into turn scope for lg functions fallback
-            ObjectPath.SetPathValue(dialogManager.InitialTurnState, TurnPath.LanguagePolicy, policy);
+            ObjectPath.SetPathValue(dialogManager.InitialTurnState, "turn.languagePolicy", policy);
             return dialogManager;
         }
     }
