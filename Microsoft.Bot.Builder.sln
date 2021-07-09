@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29123.88
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31423.177
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{4269F3C3-6B42-419B-B64A-3E6DC0F1574A}"
 	ProjectSection(SolutionItems) = preProject
@@ -218,10 +218,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Parsers", "Parsers", "{FCAFAC5B-3B49-4106-9CC2-8E3B328D2D68}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{C40A300C-8988-4733-A760-A776C6309B57}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationBot", "tests\Auth\bot-authentication\AuthenticationBot.csproj", "{0BF5E92D-D034-4D80-8921-07627F55F412}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Dialogs.Adaptive.Runtime.Tests", "tests\Microsoft.Bot.Builder.Dialogs.Adaptive.Runtime.Tests\Microsoft.Bot.Builder.Dialogs.Adaptive.Runtime.Tests.csproj", "{D611AC03-9859-4EB6-BAB9-C26F493DFDB3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Dialogs.Adaptive.Runtime", "libraries\Microsoft.Bot.Builder.Dialogs.Adaptive.Runtime\Microsoft.Bot.Builder.Dialogs.Adaptive.Runtime.csproj", "{2DB4E5B0-3209-425E-A912-005A330CC66A}"
 EndProject
@@ -857,22 +853,6 @@ Global
 		{D7FFAB17-C7BE-490F-A974-584B5E37CF6D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D7FFAB17-C7BE-490F-A974-584B5E37CF6D}.Release-Windows|Any CPU.ActiveCfg = Release|Any CPU
 		{D7FFAB17-C7BE-490F-A974-584B5E37CF6D}.Release-Windows|Any CPU.Build.0 = Release|Any CPU
-		{0BF5E92D-D034-4D80-8921-07627F55F412}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0BF5E92D-D034-4D80-8921-07627F55F412}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0BF5E92D-D034-4D80-8921-07627F55F412}.Debug-Windows|Any CPU.ActiveCfg = Debug|Any CPU
-		{0BF5E92D-D034-4D80-8921-07627F55F412}.Debug-Windows|Any CPU.Build.0 = Debug|Any CPU
-		{0BF5E92D-D034-4D80-8921-07627F55F412}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0BF5E92D-D034-4D80-8921-07627F55F412}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0BF5E92D-D034-4D80-8921-07627F55F412}.Release-Windows|Any CPU.ActiveCfg = Release|Any CPU
-		{0BF5E92D-D034-4D80-8921-07627F55F412}.Release-Windows|Any CPU.Build.0 = Release|Any CPU
-		{D611AC03-9859-4EB6-BAB9-C26F493DFDB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D611AC03-9859-4EB6-BAB9-C26F493DFDB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D611AC03-9859-4EB6-BAB9-C26F493DFDB3}.Debug-Windows|Any CPU.ActiveCfg = Debug|Any CPU
-		{D611AC03-9859-4EB6-BAB9-C26F493DFDB3}.Debug-Windows|Any CPU.Build.0 = Debug|Any CPU
-		{D611AC03-9859-4EB6-BAB9-C26F493DFDB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D611AC03-9859-4EB6-BAB9-C26F493DFDB3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D611AC03-9859-4EB6-BAB9-C26F493DFDB3}.Release-Windows|Any CPU.ActiveCfg = Release|Any CPU
-		{D611AC03-9859-4EB6-BAB9-C26F493DFDB3}.Release-Windows|Any CPU.Build.0 = Release|Any CPU
 		{2DB4E5B0-3209-425E-A912-005A330CC66A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2DB4E5B0-3209-425E-A912-005A330CC66A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DB4E5B0-3209-425E-A912-005A330CC66A}.Debug-Windows|Any CPU.ActiveCfg = Debug|Any CPU
@@ -976,8 +956,6 @@ Global
 		{D7FFAB17-C7BE-490F-A974-584B5E37CF6D} = {37BA1593-FE3D-4CB9-A040-6CAB7B2D134A}
 		{FCAFAC5B-3B49-4106-9CC2-8E3B328D2D68} = {4269F3C3-6B42-419B-B64A-3E6DC0F1574A}
 		{C40A300C-8988-4733-A760-A776C6309B57} = {AD743B78-D61F-4FBF-B620-FA83CE599A50}
-		{0BF5E92D-D034-4D80-8921-07627F55F412} = {C40A300C-8988-4733-A760-A776C6309B57}
-		{D611AC03-9859-4EB6-BAB9-C26F493DFDB3} = {AD743B78-D61F-4FBF-B620-FA83CE599A50}
 		{2DB4E5B0-3209-425E-A912-005A330CC66A} = {4269F3C3-6B42-419B-B64A-3E6DC0F1574A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
